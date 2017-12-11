@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% load comments %}
+<style type="text/css">
+label{display:inline;float:left;width:100px;}
+input,textarea{width:340px;}
+textarea{height:80px;}
+input[type=submit]{width:120px;margin-left:300px;}
+</style>
+<div class="container">
+
+    {% block page-content %}
+
+       <h3>{{bbs_obj.title}}</h3>
+    <div class="jumbotron">
+    {{bbs_obj.content}}
+
+    </div>
+<hr>
+
+    {%get_comment_list for bbs_obj as comment_list%}
+    {%for comment in comment_list%}
+        <p>on {{comment.submit_date|date:"F,j,Y"}}, {{comment.user_name}} said: {{comment.comment|safe}}</p>
+    {%endfor%}
+
+<form action="/sub_comment/" method="POST">
+    <textarea cols="80" rows="3" name="comment_content"></textarea>
+    <input type="hidden" name="bbs_id" value="{{bbs_obj.id}}">
+    <input type="submit" value="Add comment" id="id_submit">
+</form>
+
+
+</div>
+
+
+{% endblock %}
